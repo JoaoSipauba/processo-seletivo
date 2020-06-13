@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
-import firebase from "../../../services/firebase";
+import firebase from "../../../../services/firebase";
 
 import CursosFooter from "../cursosFooter/cursosFooter";
 import { FloatedGroup, SegmentArea } from "./styles";
 import { Segment, Table, Dimmer, Loader } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
 
 function CursosList() {
+  const history = useHistory()
+
   const [cursos, setCursos] = useState([]);
   const [carregando, setCarregando] = useState(false);
+  
   useEffect(() => {
-    setCarregando(true)
+    setCarregando(true);
+    sessionStorage.setItem("curso", "" )
     var cursos = {};
     firebase
       .database()
@@ -17,10 +22,16 @@ function CursosList() {
       .on("value", (snapshot) => {
         cursos = snapshot.val();
         setCursos(Object.values(cursos));
-        setCarregando(false)
+        setCarregando(false);
       });
     return () => {};
   }, []);
+
+  function rowClick(curso) {
+    sessionStorage.setItem("curso", curso.curso )
+    history.push("/alunos")
+  }
+
   return (
     <>
       <FloatedGroup>
@@ -34,17 +45,22 @@ function CursosList() {
                 <Table celled selectable>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>Código</Table.HeaderCell>
                       <Table.HeaderCell>Curso</Table.HeaderCell>
+                      <Table.HeaderCell>Código</Table.HeaderCell>
                       <Table.HeaderCell>Data de cadastro</Table.HeaderCell>
                       <Table.HeaderCell>Carga horária(horas)</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
                     {cursos.map((curso, index) => (
-                      <Table.Row key={index}>
+                      <Table.Row
+                        key={index}
+                        onClick={()=> rowClick(curso)}
+                      >
+                        <Table.Cell>
+                          <strong>{curso.curso}</strong>
+                        </Table.Cell>
                         <Table.Cell>{curso.codigo}</Table.Cell>
-                        <Table.Cell>{curso.curso}</Table.Cell>
                         <Table.Cell>{curso.data}</Table.Cell>
                         <Table.Cell>{curso.cargaHoraria}</Table.Cell>
                       </Table.Row>

@@ -10,6 +10,5 @@ export const FloatedGroup = styled.div`
 
 export const SegmentArea = styled(Segment.Group)`
   min-height: 40vh;
-  max-height: 68vh;
   background-color: #fff;
 `

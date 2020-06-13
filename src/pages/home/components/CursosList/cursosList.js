@@ -29,7 +29,7 @@ function CursosList() {
 
   function rowClick(curso) {
     sessionStorage.setItem("curso", curso.curso )
-    history.push("/alunos")
+    history.push("/Alunos")
   }
 
   return (

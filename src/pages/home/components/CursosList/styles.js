@@ -3,7 +3,7 @@ import { Segment } from "semantic-ui-react";
 
 export const FloatedGroup = styled.div`
   max-width: 94% !important;
-  margin: 12vh auto !important;
+  margin: 6vh auto !important;
   min-height: 60vh;
 
 `;

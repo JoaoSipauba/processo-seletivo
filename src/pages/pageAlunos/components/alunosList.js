@@ -6,7 +6,8 @@ import {
   FloatedGroup,
   SegmentArea,
 } from "../../home/components/CursosList/styles";
-import { Segment, Table, Dimmer, Loader } from "semantic-ui-react";
+import DropdownMenu from "./dropdownMenu";
+import { Segment, Table, Dimmer, Loader, Grid } from "semantic-ui-react";
 
 function CursosList() {
   const [alunosList, setAlunosList] = useState([]);
@@ -37,7 +38,16 @@ function CursosList() {
             {carregando === false ? (
               <>
                 <Segment color="blue">
-                  <h2>Alunos de {sessionStorage.getItem("curso")}:</h2>
+                  <Grid columns={2} stackable>
+                    <Grid.Row verticalAlign="middle">
+                      <Grid.Column>
+                        <h2>Alunos de {sessionStorage.getItem("curso")}:</h2>
+                      </Grid.Column>
+                      <Grid.Column style={{height: "100%"}} textAlign="right">
+                        <DropdownMenu />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
                 </Segment>
                 <Segment.Group>
                   <Table celled>
@@ -53,9 +63,11 @@ function CursosList() {
                       </Table.Row>
                     </Table.Header>
                     {alunosList === false ? (
-                      <h3 style={{ padding: "3%" }}>
-                        Não há alunos cadastrados nesta disciplina
-                      </h3>
+                      <Table.Body>
+                        <h3 style={{ padding: "3%" }}>
+                          Não há alunos cadastrados nesta disciplina
+                        </h3>
+                      </Table.Body>
                     ) : (
                       <>
                         <Table.Body style={{ cursor: "pointer" }}>

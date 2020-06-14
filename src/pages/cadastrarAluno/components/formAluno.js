@@ -41,7 +41,7 @@ function FormAluno() {
           id = 1;
           btnCadastro(id);
         } else {
-          btnCadastro(id);
+          btnCadastro(id+1);
         }
       });
   }

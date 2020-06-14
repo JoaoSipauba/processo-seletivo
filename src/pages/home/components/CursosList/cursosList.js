@@ -15,6 +15,7 @@ function CursosList() {
   useEffect(() => {
     setCarregando(true);
     sessionStorage.setItem("curso", "" )
+    sessionStorage.setItem("idCurso", "" )
     var cursos = {};
     firebase
       .database()
@@ -29,6 +30,7 @@ function CursosList() {
 
   function rowClick(curso) {
     sessionStorage.setItem("curso", curso.curso )
+    sessionStorage.setItem("idCurso", curso.codigo )
     history.push("/Alunos")
   }
 
@@ -38,20 +40,20 @@ function CursosList() {
         <SegmentArea>
           {carregando === false ? (
             <>
-              <Segment>
-                <h3>SELECIONE UM CURSO</h3>
+              <Segment color="blue">
+                <h2>SELECIONE UM CURSO</h2>
               </Segment>
               <Segment.Group>
                 <Table celled selectable>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>Curso</Table.HeaderCell>
+                      <Table.HeaderCell><h3>Curso</h3></Table.HeaderCell>
                       <Table.HeaderCell>Código</Table.HeaderCell>
                       <Table.HeaderCell>Data de cadastro</Table.HeaderCell>
                       <Table.HeaderCell>Carga horária(horas)</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
-                  <Table.Body>
+                  <Table.Body style={{cursor: 'pointer'}}>
                     {cursos.map((curso, index) => (
                       <Table.Row
                         key={index}

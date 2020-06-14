@@ -23,8 +23,12 @@ function CursosFooter() {
   }
   function addCurso(id) {
     const now = new Date();
+    var mes = (now.getMonth() + 1).toString();
+    if (mes.length === 1) {
+      mes = `0${mes}`;
+    }
     var data =
-      now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
+      now.getDate() + "/" + mes + "/" + now.getFullYear();
 
     var curso = {
       codigo: parseInt(id) + 1,

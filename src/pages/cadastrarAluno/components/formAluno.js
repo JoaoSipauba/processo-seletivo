@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import firebase from "../../../services/firebase";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 import { mCEP, mTel, mCPF } from "../../../functions/masks";
 
 import { FloatedGroup, SegmentArea, FormularioAluno } from "./styles";
-import { Segment, Form, TextArea, Dimmer, Loader } from "semantic-ui-react";
+import {
+  Segment,
+  Form,
+  TextArea,
+  Dimmer,
+  Loader,
+  Message,
+} from "semantic-ui-react";
 
 function FormAluno() {
   const history = useHistory();
@@ -18,6 +25,7 @@ function FormAluno() {
   const [endereco, setEndereco] = useState("");
 
   const [carregando, setCarregando] = useState(false);
+  const [msg, setMsg] = useState(false);
 
   function idGen() {
     setCarregando(true);
@@ -56,10 +64,24 @@ function FormAluno() {
       .set(aluno)
       .then(() => {
         setCarregando(false);
-        history.push("/Alunos")
+        history.push("/Alunos");
       });
   }
 
+  function inputCheck() {
+    if (
+      nome === "" ||
+      cpf === "" ||
+      cep === "" ||
+      endereco === "" ||
+      email === "" ||
+      telefone === ""
+    ) {
+      setMsg(true);
+    } else {
+      idGen();
+    }
+  }
   return (
     <>
       <FloatedGroup>
@@ -114,7 +136,19 @@ function FormAluno() {
                       onChange={(e) => setEndereco(e.target.value)}
                     />
                   </Form.Group>
-                  <Form.Button fluid size="large" primary onClick={idGen}>
+
+                  <Message
+                    visible={msg}
+                    size="big"
+                    warning
+                    onDismiss={() => {
+                      setMsg(false);
+                    }}
+                    header="Há campos vazios!"
+                    content="Preencha os campos e tente novamente."
+                  />
+
+                  <Form.Button fluid size="large" primary onClick={inputCheck}>
                     Cadastrar
                   </Form.Button>
                 </FormularioAluno>

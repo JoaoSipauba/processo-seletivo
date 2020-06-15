@@ -26,6 +26,7 @@ function CursosList() {
         cursos = snapshot.val();
         if (cursos === null || cursos === undefined) {
           setCursos(false);
+          setCarregando(false);
         } else {
           setCursos(Object.values(cursos));
           setCarregando(false);

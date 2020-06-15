@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { mCEP, mTel, mCPF } from "../../../functions/masks";
 
 import { FloatedGroup, SegmentArea, FormularioAluno } from "./styles";
+import DropdownForm from "./dropdownForm";
 import {
   Segment,
   Form,
@@ -12,6 +13,7 @@ import {
   Dimmer,
   Loader,
   Message,
+  Grid,
 } from "semantic-ui-react";
 
 function FormAluno() {
@@ -124,7 +126,21 @@ function FormAluno() {
                 {cadastro ? (
                   <h2>Cadastro de alunos</h2>
                 ) : (
-                  <h2>Alterar aluno</h2>
+                  <>
+                    <Grid columns={2} stackable>
+                      <Grid.Row verticalAlign="middle">
+                        <Grid.Column>
+                          <h2>Alterar aluno</h2>
+                        </Grid.Column>
+                        <Grid.Column
+                          style={{ height: "100%" }}
+                          textAlign="right"
+                        >
+                          <DropdownForm />
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </>
                 )}
               </Segment>
               <Segment.Group>

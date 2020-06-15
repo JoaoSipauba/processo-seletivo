@@ -3,7 +3,7 @@ import React from "react";
 import Menu from "../../components/menu/menu";
 import CursosList from "./components/CursosList/cursosList";
 
-function Home() {
+function PageCursos() {
   return (
     <>
       <Menu />
@@ -11,4 +11,4 @@ function Home() {
     </>
   );
 }
-export default Home;
+export default PageCursos;

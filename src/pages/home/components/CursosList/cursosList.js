@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import firebase from "../../../../services/firebase";
+import { useHistory } from "react-router-dom";
+import { storageClear } from "../../../../functions/storageClear";
 
 import CursosFooter from "../cursosFooter/cursosFooter";
 import { FloatedGroup, SegmentArea } from "./styles";
 import { Segment, Table, Dimmer, Loader } from "semantic-ui-react";
-import { useHistory } from "react-router-dom";
 
 function CursosList() {
   const history = useHistory();
@@ -14,8 +15,9 @@ function CursosList() {
 
   useEffect(() => {
     setCarregando(true);
-    sessionStorage.setItem("curso", "");
-    sessionStorage.setItem("idCurso", "");
+
+    storageClear("all")
+
     var cursos = {};
     firebase
       .database()

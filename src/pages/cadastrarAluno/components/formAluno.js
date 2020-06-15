@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import firebase from "../../../services/firebase";
 import { useHistory } from "react-router-dom";
 
@@ -17,15 +17,23 @@ import {
 function FormAluno() {
   const history = useHistory();
 
-  const [nome, setNome] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [email, setEmail] = useState("");
-  const [cep, setCep] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [endereco, setEndereco] = useState("");
+  const [cadastro, setCadastro] = useState(true);
+  const [nome, setNome] = useState(sessionStorage.getItem("aluno"));
+  const [cpf, setCpf] = useState(sessionStorage.getItem("cpf"));
+  const [email, setEmail] = useState(sessionStorage.getItem("email"));
+  const [cep, setCep] = useState(sessionStorage.getItem("cep"));
+  const [telefone, setTelefone] = useState(sessionStorage.getItem("telefone"));
+  const [endereco, setEndereco] = useState(sessionStorage.getItem("endereco"));
 
   const [carregando, setCarregando] = useState(false);
   const [msg, setMsg] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("codigo") !== "") {
+      setCadastro(false);
+    }
+    return () => {};
+  }, []);
 
   function idGen() {
     setCarregando(true);
@@ -41,7 +49,7 @@ function FormAluno() {
           id = 1;
           btnCadastro(id);
         } else {
-          btnCadastro(id+1);
+          btnCadastro(id + 1);
         }
       });
   }
@@ -68,6 +76,26 @@ function FormAluno() {
       });
   }
 
+  function update() {
+    firebase
+      .database()
+      .ref(
+        `/cursos/${sessionStorage.getItem(
+          "idCurso"
+        )}/alunos/${sessionStorage.getItem("codigo")}`
+      )
+      .update({
+        nome,
+        cpf: mCPF(cpf),
+        email,
+        cep: mCEP(cep),
+        telefone: mTel(telefone),
+        endereco,
+      })
+      .then(() => {
+        history.push("/Alunos");
+      });
+  }
   function inputCheck() {
     if (
       nome === "" ||
@@ -79,7 +107,11 @@ function FormAluno() {
     ) {
       setMsg(true);
     } else {
-      idGen();
+      if (cadastro) {
+        idGen();
+      } else {
+        update();
+      }
     }
   }
   return (
@@ -88,8 +120,12 @@ function FormAluno() {
         <SegmentArea>
           {carregando === false ? (
             <>
-              <Segment color="blue">
-                <h2>Cadastro de alunos</h2>
+              <Segment color="grey">
+                {cadastro ? (
+                  <h2>Cadastro de alunos</h2>
+                ) : (
+                  <h2>Alterar aluno</h2>
+                )}
               </Segment>
               <Segment.Group>
                 <FormularioAluno>
@@ -99,12 +135,14 @@ function FormAluno() {
                       placeholder="João Pedro da Silva"
                       width={13}
                       onChange={(e) => setNome(e.target.value)}
+                      value={nome}
                     />
                     <Form.Input
                       label="CPF"
                       placeholder="65432145605"
                       width={4}
                       onChange={(e) => setCpf(e.target.value)}
+                      value={cpf}
                     />
                   </Form.Group>
                   <Form.Group>
@@ -113,18 +151,23 @@ function FormAluno() {
                       placeholder="joaopedrodasilva@gmail.com"
                       width={9}
                       onChange={(e) => setEmail(e.target.value)}
+                      value={email}
+                      type="email"
                     />
                     <Form.Input
                       label="Cep"
-                      placeholder="65000000"
+                      placeholder="65000-000"
                       width={3}
                       onChange={(e) => setCep(e.target.value)}
+                      value={cep}
                     />
                     <Form.Input
                       label="Telefone"
-                      placeholder="98991644852"
+                      placeholder="(98)99164-4852"
                       width={4}
                       onChange={(e) => setTelefone(e.target.value)}
+                      value={telefone}
+                      type="tel"
                     />
                   </Form.Group>
                   <Form.Group>
@@ -134,6 +177,7 @@ function FormAluno() {
                       placeholder="rua dos perdizes n9 centro"
                       width={10}
                       onChange={(e) => setEndereco(e.target.value)}
+                      value={endereco}
                     />
                   </Form.Group>
 
@@ -148,9 +192,25 @@ function FormAluno() {
                     content="Preencha os campos e tente novamente."
                   />
 
-                  <Form.Button fluid size="large" primary onClick={inputCheck}>
-                    Cadastrar
-                  </Form.Button>
+                  {cadastro ? (
+                    <Form.Button
+                      fluid
+                      size="large"
+                      primary
+                      onClick={inputCheck}
+                    >
+                      Cadastrar
+                    </Form.Button>
+                  ) : (
+                    <Form.Button
+                      fluid
+                      size="large"
+                      negative
+                      onClick={inputCheck}
+                    >
+                      Alterar
+                    </Form.Button>
+                  )}
                 </FormularioAluno>
               </Segment.Group>
             </>

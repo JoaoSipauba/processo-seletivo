@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import firebase from "../../../services/firebase";
+import { useHistory } from "react-router-dom";
+import { storageClear } from "../../../functions/storageClear";
 
 import AlunosFooter from "./alunosFooter";
 import {
@@ -10,11 +12,17 @@ import DropdownMenu from "./dropdownMenu";
 import { Segment, Table, Dimmer, Loader, Grid } from "semantic-ui-react";
 
 function CursosList() {
+
+  const history = useHistory();
+
   const [alunosList, setAlunosList] = useState([]);
   const [carregando, setCarregando] = useState(false);
 
   useEffect(() => {
     setCarregando(true);
+
+    storageClear("alunos");
+    
     var alunos = {};
     firebase
       .database()
@@ -30,6 +38,18 @@ function CursosList() {
       });
     return () => {};
   }, []);
+
+  function rowClick(aluno) {
+    sessionStorage.setItem("aluno", aluno.nome);
+    sessionStorage.setItem("codigo", aluno.codigo);
+    sessionStorage.setItem("cpf", aluno.cpf);
+    sessionStorage.setItem("endereco", aluno.endereco);
+    sessionStorage.setItem("cep", aluno.cep);
+    sessionStorage.setItem("email", aluno.email);
+    sessionStorage.setItem("telefone", aluno.telefone);
+    history.push("/CadastrarAluno");
+  }
+
   return (
     <>
       <FloatedGroup>
@@ -55,9 +75,9 @@ function CursosList() {
                       <Table.Row>
                         <Table.HeaderCell>Código</Table.HeaderCell>
                         <Table.HeaderCell>Nome</Table.HeaderCell>
-                        <Table.HeaderCell>CPF</Table.HeaderCell>
+                        {/* <Table.HeaderCell>CPF</Table.HeaderCell>
                         <Table.HeaderCell>Endereço</Table.HeaderCell>
-                        <Table.HeaderCell>CEP</Table.HeaderCell>
+                        <Table.HeaderCell>CEP</Table.HeaderCell> */}
                         <Table.HeaderCell>E-mail</Table.HeaderCell>
                         <Table.HeaderCell>Telefone</Table.HeaderCell>
                       </Table.Row>
@@ -72,14 +92,14 @@ function CursosList() {
                       <>
                         <Table.Body style={{ cursor: "pointer" }}>
                           {alunosList.map((aluno, index) => (
-                            <Table.Row key={index}>
+                            <Table.Row key={index} onClick={()=> rowClick(aluno)}>
                               <Table.Cell>{aluno.codigo}</Table.Cell>
                               <Table.Cell>
                                 <strong>{aluno.nome}</strong>
                               </Table.Cell>
-                              <Table.Cell>{aluno.cpf}</Table.Cell>
-                              <Table.Cell>{aluno.endereco}</Table.Cell>
-                              <Table.Cell>{aluno.cep}</Table.Cell>
+                              {/* <Table.Cell>{aluno.cpf}</Table.Cell> */}
+                              {/* <Table.Cell>{aluno.endereco}</Table.Cell> */}
+                              {/* <Table.Cell>{aluno.cep}</Table.Cell> */}
                               <Table.Cell>{aluno.email}</Table.Cell>
                               <Table.Cell>{aluno.telefone}</Table.Cell>
                             </Table.Row>

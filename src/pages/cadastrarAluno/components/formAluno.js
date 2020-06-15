@@ -79,6 +79,7 @@ function FormAluno() {
   }
 
   function update() {
+    setCarregando(true)
     firebase
       .database()
       .ref(
@@ -95,6 +96,7 @@ function FormAluno() {
         endereco,
       })
       .then(() => {
+        setCarregando(false)
         history.push("/Alunos");
       });
   }
@@ -233,7 +235,7 @@ function FormAluno() {
           ) : (
             <>
               <Dimmer active>
-                <Loader size="big">Listando cursos</Loader>
+                <Loader size="big">Carregando informações</Loader>
               </Dimmer>
             </>
           )}

@@ -29,6 +29,7 @@ function FormAluno() {
 
   const [carregando, setCarregando] = useState(false);
   const [msg, setMsg] = useState(false);
+  const [msgText, setMsgText] = useState("");
 
   useEffect(() => {
     if (sessionStorage.getItem("codigo") !== "") {
@@ -79,7 +80,7 @@ function FormAluno() {
   }
 
   function update() {
-    setCarregando(true)
+    setCarregando(true);
     firebase
       .database()
       .ref(
@@ -96,7 +97,7 @@ function FormAluno() {
         endereco,
       })
       .then(() => {
-        setCarregando(false)
+        setCarregando(false);
         history.push("/Alunos");
       });
   }
@@ -110,11 +111,24 @@ function FormAluno() {
       telefone === ""
     ) {
       setMsg(true);
+      setMsgText("Preencha os campos e tente novamente.");
     } else {
       if (cadastro) {
         idGen();
       } else {
-        update();
+        if (
+          nome === sessionStorage.getItem("aluno") &&
+          cpf === sessionStorage.getItem("cpf") &&
+          cep === sessionStorage.getItem("cep") &&
+          endereco === sessionStorage.getItem("endereco") &&
+          email === sessionStorage.getItem("email") &&
+          telefone === sessionStorage.getItem("telefone")
+        ) {
+          setMsg(true);
+          setMsgText("Não houveram alterações neste aluno.");
+        } else {
+          update();
+        }
       }
     }
   }
@@ -173,6 +187,7 @@ function FormAluno() {
                       type="email"
                     />
                     <Form.Input
+                      style={{ maxlength: "10" }}
                       label="Cep"
                       placeholder="65000-000"
                       width={3}
@@ -206,8 +221,8 @@ function FormAluno() {
                     onDismiss={() => {
                       setMsg(false);
                     }}
-                    header="Há campos vazios!"
-                    content="Preencha os campos e tente novamente."
+                    header={msgText}
+                    content="Verifique e tente novamente."
                   />
 
                   {cadastro ? (

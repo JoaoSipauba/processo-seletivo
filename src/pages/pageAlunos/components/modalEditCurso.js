@@ -34,12 +34,10 @@ function ModalEditCurso() {
         cursoInput === sessionStorage.getItem("curso") &&
         cargaHorariaInput === sessionStorage.getItem("cargaHoraria")
       ) {
-        console.log("inputs iguais");
         setMsg(true);
         setMsgText("Não houveram alterações neste curso.");
       } else {
         editCurso();
-        console.log("editou");
         history.push("/");
       }
     }

@@ -36,7 +36,7 @@ function ModalEditCurso() {
       ) {
         console.log("inputs iguais");
         setMsg(true);
-        setMsgText("Não houveram alterações neste aluno.");
+        setMsgText("Não houveram alterações neste curso.");
       } else {
         editCurso();
         console.log("editou");

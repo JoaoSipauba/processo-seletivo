@@ -34,7 +34,7 @@ function DropdownMenu() {
           <Dropdown.Item
             icon="file alternate"
             text="Exportar para excel"
-            onClick={excelDownload}
+            onClick={()=>excelDownload("alunos")}
           />
         </Dropdown.Menu>
       </Dropdown>

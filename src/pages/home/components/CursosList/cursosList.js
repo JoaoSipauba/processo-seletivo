@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
+
 import firebase from "../../../../services/firebase";
 import { useHistory } from "react-router-dom";
 import { storageClear } from "../../../../functions/storageClear";
+import { excelDownload } from "../../../../functions/excelDownload";
 
 import CursosFooter from "../cursosFooter/cursosFooter";
 import { FloatedGroup, SegmentArea } from "./styles";
-import { Segment, Table, Dimmer, Loader } from "semantic-ui-react";
+import {
+  Segment,
+  Table,
+  Dimmer,
+  Loader,
+  Grid,
+  Icon,
+  Popup,
+} from "semantic-ui-react";
 
 function CursosList() {
   const history = useHistory();
@@ -16,7 +26,7 @@ function CursosList() {
   useEffect(() => {
     setCarregando(true);
 
-    storageClear("all")
+    storageClear("all");
 
     var cursos = {};
     firebase
@@ -48,7 +58,28 @@ function CursosList() {
           {carregando === false ? (
             <>
               <Segment color="blue">
-                <h2>SELECIONE UM CURSO</h2>
+                <Grid columns={2} stackable>
+                  <Grid.Row verticalAlign="middle">
+                    <Grid.Column>
+                      <h2>SELECIONE UM CURSO</h2>
+                    </Grid.Column>
+                    <Grid.Column style={{ height: "100%" }} textAlign="right">
+                      <Popup
+                        inverted
+                        position="bottom right"
+                        content="Exportar lista de cursos para excel"
+                        trigger={
+                          <Icon
+                            style={{ cursor: "pointer" }}
+                            name="download"
+                            size="large"
+                            onClick={()=>excelDownload("cursos",cursos)}
+                          />
+                        }
+                      />
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
               </Segment>
               <Segment.Group>
                 <Table celled selectable>

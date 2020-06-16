@@ -75,9 +75,6 @@ function CursosList() {
                       <Table.Row>
                         <Table.HeaderCell>Código</Table.HeaderCell>
                         <Table.HeaderCell>Nome</Table.HeaderCell>
-                        {/* <Table.HeaderCell>CPF</Table.HeaderCell>
-                        <Table.HeaderCell>Endereço</Table.HeaderCell>
-                        <Table.HeaderCell>CEP</Table.HeaderCell> */}
                         <Table.HeaderCell>E-mail</Table.HeaderCell>
                         <Table.HeaderCell>Telefone</Table.HeaderCell>
                       </Table.Row>
@@ -97,9 +94,6 @@ function CursosList() {
                               <Table.Cell>
                                 <strong>{aluno.nome}</strong>
                               </Table.Cell>
-                              {/* <Table.Cell>{aluno.cpf}</Table.Cell> */}
-                              {/* <Table.Cell>{aluno.endereco}</Table.Cell> */}
-                              {/* <Table.Cell>{aluno.cep}</Table.Cell> */}
                               <Table.Cell>{aluno.email}</Table.Cell>
                               <Table.Cell>{aluno.telefone}</Table.Cell>
                             </Table.Row>

@@ -1,6 +1,7 @@
 export function storageClear(option) {
     if (option === "all") {
         sessionStorage.setItem("curso", "");
+        sessionStorage.setItem("cargaHoraria", "");
         sessionStorage.setItem("idCurso", "");
         sessionStorage.setItem("aluno", "");
         sessionStorage.setItem("codigo", "");

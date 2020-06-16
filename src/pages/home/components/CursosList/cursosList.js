@@ -47,6 +47,7 @@ function CursosList() {
 
   function rowClick(curso) {
     sessionStorage.setItem("curso", curso.curso);
+    sessionStorage.setItem("cargaHoraria", curso.cargaHoraria);
     sessionStorage.setItem("idCurso", curso.codigo);
     history.push("/Alunos");
   }

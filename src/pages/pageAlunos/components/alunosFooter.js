@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import firebase from "../../../services/firebase";
+// import firebase from "../../../services/firebase";
 
 import { Table, Button, Modal, Icon, Message, Form } from "semantic-ui-react";
 import { Link } from "react-router-dom";
@@ -12,15 +12,15 @@ function AlunosFooter() {
 
   function idGen() {
     var id = 0;
-    firebase
-      .database()
-      .ref("cursos")
-      .once("value", (doc) => {
-        doc.forEach((snapshot) => {
-          id = snapshot.val().codigo;
-        });
-        addCurso(id);
-      });
+    // firebase
+    //   .database()
+    //   .ref("cursos")
+    //   .once("value", (doc) => {
+    //     doc.forEach((snapshot) => {
+    //       id = snapshot.val().codigo;
+    //     });
+    //     addCurso(id);
+    //   });
   }
   function addCurso(id) {
     const now = new Date();
@@ -33,13 +33,13 @@ function AlunosFooter() {
       data,
       cargaHoraria: cargaHorariaInput,
     };
-    firebase
-      .database()
-      .ref(`/cursos/${curso.codigo}`)
-      .set(curso)
-      .then(() => {
-        setModalAdd(false);
-      });
+    // firebase
+    //   .database()
+    //   .ref(`/cursos/${curso.codigo}`)
+    //   .set(curso)
+    //   .then(() => {
+    //     setModalAdd(false);
+    //   });
   }
   function inputCheck() {
     if (cursoInput === "" || cargaHorariaInput === "") {

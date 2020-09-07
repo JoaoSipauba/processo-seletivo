@@ -1,6 +1,6 @@
 import React from "react";
 
-import firebase from "../../../services/firebase";
+// import firebase from "../../../services/firebase";
 import { useHistory } from "react-router-dom";
 import { excelDownload } from "../../../functions/excelDownload";
 
@@ -13,13 +13,13 @@ function DropdownMenu() {
   var curso = sessionStorage.getItem("idCurso");
 
   function excluir() {
-    firebase
-      .database()
-      .ref(`/cursos/${curso}`)
-      .remove()
-      .then(() => {
-        history.push("/");
-      });
+    // firebase
+    //   .database()
+    //   .ref(`/cursos/${curso}`)
+    //   .remove()
+    //   .then(() => {
+    //     history.push("/");
+    //   });
   }
   return (
     <>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import firebase from "../../../../services/firebase";
+import Axios from "axios";
+// import firebase from "../../../../services/firebase";
 import { useHistory } from "react-router-dom";
-import { storageClear } from "../../../../functions/storageClear";
+// import { storageClear } from "../../../../functions/storageClear";
 import { excelDownload } from "../../../../functions/excelDownload";
 
 import CursosFooter from "../cursosFooter/cursosFooter";
@@ -26,22 +27,15 @@ function CursosList() {
   useEffect(() => {
     setCarregando(true);
 
-    storageClear("all");
-
-    var cursos = {};
-    firebase
-      .database()
-      .ref("cursos")
-      .on("value", (snapshot) => {
-        cursos = snapshot.val();
-        if (cursos === null || cursos === undefined) {
-          setCursos(false);
-          setCarregando(false);
-        } else {
-          setCursos(Object.values(cursos));
-          setCarregando(false);
-        }
-      });
+    Axios.get('http://localhost:3333/cursos')
+      .then(response=>{
+        console.log(response);
+        setCursos(response.data)
+        setCarregando(false);
+      }).catch(error=>{
+        console.log(error);
+        setCarregando(false);
+      })
     return () => {};
   }, []);
 
@@ -109,9 +103,9 @@ function CursosList() {
                             <Table.Cell>
                               <strong>{curso.curso}</strong>
                             </Table.Cell>
-                            <Table.Cell>{curso.codigo}</Table.Cell>
-                            <Table.Cell>{curso.data}</Table.Cell>
-                            <Table.Cell>{curso.cargaHoraria}</Table.Cell>
+                            <Table.Cell>{curso.id}</Table.Cell>
+                            <Table.Cell>{curso.data_cadastro}</Table.Cell>
+                            <Table.Cell>{curso.carga_horaria}</Table.Cell>
                           </Table.Row>
                         ))}
                       </Table.Body>

@@ -1,54 +1,37 @@
 import React, { useState } from "react";
-import firebase from "../../../../services/firebase";
+// import firebase from "../../../../services/firebase";
 
 import { Table, Button, Modal, Icon, Message, Form } from "semantic-ui-react";
+import Axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function CursosFooter() {
+  const history = useHistory();
+
   const [modalAdd, setModalAdd] = useState(false);
   const [msg, setMsg] = useState(false);
   const [cursoInput, setCursoInput] = useState("");
   const [cargaHorariaInput, setCargaHorariaInput] = useState("");
 
-  function idGen() {
-    var id = 0;
-    firebase
-      .database()
-      .ref("cursos")
-      .once("value", (doc) => {
-        doc.forEach((snapshot) => {
-          id = snapshot.val().codigo;
-        });
-        addCurso(id);
-      });
-  }
-  function addCurso(id) {
-    const now = new Date();
-    var mes = (now.getMonth() + 1).toString();
-    if (mes.length === 1) {
-      mes = `0${mes}`;
-    }
-    var data =
-      now.getDate() + "/" + mes + "/" + now.getFullYear();
-
+  function addCurso() {
     var curso = {
-      codigo: parseInt(id) + 1,
       curso: cursoInput,
-      data,
-      cargaHoraria: cargaHorariaInput,
+      carga_horaria: cargaHorariaInput,
     };
-    firebase
-      .database()
-      .ref(`/cursos/${curso.codigo}`)
-      .set(curso)
-      .then(() => {
-        setModalAdd(false);
-      });
+
+    Axios.post('http://localhost:3333/cursos',curso).then(sucesso=>{
+      console.log(sucesso);
+      setModalAdd(false)
+      history.go(0)
+    }).catch(error=>{
+      console.log(error);
+    })
   }
   function inputCheck() {
     if (cursoInput === "" || cargaHorariaInput === "") {
       setMsg(true);
     } else {
-      idGen();
+      addCurso();
     }
   }
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import firebase from "../../../services/firebase";
+// import firebase from "../../../services/firebase";
 import { useHistory } from "react-router-dom";
 
 import { Modal, Message, Form, Button } from "semantic-ui-react";
@@ -16,14 +16,14 @@ function ModalEditCurso() {
   const [msgText, setMsgText] = useState("");
 
   function editCurso() {
-    firebase
-      .database()
-      .ref(`/cursos/${sessionStorage.getItem("idCurso")}`)
-      .update({
-        curso: cursoInput,
-        cargaHoraria: cargaHorariaInput,
-      })
-      .then(() => {});
+    // firebase
+    //   .database()
+    //   .ref(`/cursos/${sessionStorage.getItem("idCurso")}`)
+    //   .update({
+    //     curso: cursoInput,
+    //     cargaHoraria: cargaHorariaInput,
+    //   })
+    //   .then(() => {});
   }
   function inputCheck() {
     if (cursoInput === "" || cargaHorariaInput === "") {

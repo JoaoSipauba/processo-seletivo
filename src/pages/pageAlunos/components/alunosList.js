@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import firebase from "../../../services/firebase";
+// import firebase from "../../../services/firebase";
 import { useHistory } from "react-router-dom";
 import { storageClear } from "../../../functions/storageClear";
 
@@ -24,18 +24,18 @@ function CursosList() {
     storageClear("alunos");
     
     var alunos = {};
-    firebase
-      .database()
-      .ref(`cursos/${sessionStorage.getItem("idCurso")}/alunos`)
-      .on("value", (snapshot) => {
-        alunos = snapshot.val();
-        if (alunos === null || alunos === undefined) {
-          setAlunosList(false);
-        } else {
-          setAlunosList(Object.values(alunos));
-        }
-        setCarregando(false);
-      });
+    // firebase
+    //   .database()
+    //   .ref(`cursos/${sessionStorage.getItem("idCurso")}/alunos`)
+    //   .on("value", (snapshot) => {
+    //     alunos = snapshot.val();
+    //     if (alunos === null || alunos === undefined) {
+    //       setAlunosList(false);
+    //     } else {
+    //       setAlunosList(Object.values(alunos));
+    //     }
+    //     setCarregando(false);
+    //   });
     return () => {};
   }, []);
 

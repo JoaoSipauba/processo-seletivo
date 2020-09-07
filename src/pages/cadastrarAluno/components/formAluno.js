@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import firebase from "../../../services/firebase";
+// import firebase from "../../../services/firebase";
 import { useHistory } from "react-router-dom";
 
 import { mCEP, mTel, mCPF } from "../../../functions/masks";
@@ -41,20 +41,20 @@ function FormAluno() {
   function idGen() {
     setCarregando(true);
     var id = 1;
-    firebase
-      .database()
-      .ref(`cursos/${sessionStorage.getItem("idCurso")}/alunos`)
-      .once("value", (doc) => {
-        doc.forEach((snapshot) => {
-          id = snapshot.val().codigo;
-        });
-        if (id === undefined) {
-          id = 1;
-          btnCadastro(id);
-        } else {
-          btnCadastro(id + 1);
-        }
-      });
+    // firebase
+    //   .database()
+    //   .ref(`cursos/${sessionStorage.getItem("idCurso")}/alunos`)
+    //   .once("value", (doc) => {
+    //     doc.forEach((snapshot) => {
+    //       id = snapshot.val().codigo;
+    //     });
+    //     if (id === undefined) {
+    //       id = 1;
+    //       btnCadastro(id);
+    //     } else {
+    //       btnCadastro(id + 1);
+    //     }
+    //   });
   }
   function btnCadastro(id) {
     var aluno = {
@@ -67,39 +67,39 @@ function FormAluno() {
       endereco,
     };
 
-    firebase
-      .database()
-      .ref(
-        `/cursos/${sessionStorage.getItem("idCurso")}/alunos/${aluno.codigo}`
-      )
-      .set(aluno)
-      .then(() => {
-        setCarregando(false);
-        history.push("/Alunos");
-      });
+    // firebase
+    //   .database()
+    //   .ref(
+    //     `/cursos/${sessionStorage.getItem("idCurso")}/alunos/${aluno.codigo}`
+    //   )
+    //   .set(aluno)
+    //   .then(() => {
+    //     setCarregando(false);
+    //     history.push("/Alunos");
+    //   });
   }
 
   function update() {
     setCarregando(true);
-    firebase
-      .database()
-      .ref(
-        `/cursos/${sessionStorage.getItem(
-          "idCurso"
-        )}/alunos/${sessionStorage.getItem("codigo")}`
-      )
-      .update({
-        nome,
-        cpf: mCPF(cpf),
-        email,
-        cep: mCEP(cep),
-        telefone: mTel(telefone),
-        endereco,
-      })
-      .then(() => {
-        setCarregando(false);
-        history.push("/Alunos");
-      });
+    // firebase
+    //   .database()
+    //   .ref(
+    //     `/cursos/${sessionStorage.getItem(
+    //       "idCurso"
+    //     )}/alunos/${sessionStorage.getItem("codigo")}`
+    //   )
+    //   .update({
+    //     nome,
+    //     cpf: mCPF(cpf),
+    //     email,
+    //     cep: mCEP(cep),
+    //     telefone: mTel(telefone),
+    //     endereco,
+    //   })
+    //   .then(() => {
+    //     setCarregando(false);
+    //     history.push("/Alunos");
+    //   });
   }
   function inputCheck() {
     if (

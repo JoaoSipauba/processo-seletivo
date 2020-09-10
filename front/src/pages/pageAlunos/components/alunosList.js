@@ -37,7 +37,7 @@ function CursosList() {
     
     Axios.get('http://localhost:3333/alunos?curso_id='+id)
       .then(response=>{
-        console.log(response.data);
+        // console.log(response.data);
         setAlunosList(response.data)
         setCurso(response.data[0].curso)
         setCarregando(false);
@@ -49,7 +49,7 @@ function CursosList() {
   }, []);
 
   function rowClick(aluno) {
-    history.push("/CadastrarAluno");
+    history.push("/CadastrarAluno/");
   }
 
   return (
@@ -103,7 +103,7 @@ function CursosList() {
                         </Table.Body>
                       </>
                     )}
-                    <AlunosFooter />
+                    <AlunosFooter cursoId={id}/>
                   </Table>
                 </Segment.Group>
               </>

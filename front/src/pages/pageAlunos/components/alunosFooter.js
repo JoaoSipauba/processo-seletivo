@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Table, Button, Modal, Icon, Message, Form } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-function AlunosFooter() {
+function AlunosFooter(props) {
   const [modalAdd, setModalAdd] = useState(false);
   const [msg, setMsg] = useState(false);
   const [cursoInput, setCursoInput] = useState("");
@@ -100,7 +100,7 @@ function AlunosFooter() {
       <Table.Footer fullWidth>
         <Table.Row>
           <Table.HeaderCell colSpan="16">
-            <Link to="/CadastrarAluno">
+            <Link to={`/CadastrarAluno/${props.cursoId}`}>
               <Button primary size="small" floated="right">
                 Cadastrar alunos
               </Button>

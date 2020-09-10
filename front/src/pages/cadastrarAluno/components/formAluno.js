@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import firebase from "../../../services/firebase";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { mCEP, mTel, mCPF } from "../../../functions/masks";
 
@@ -15,10 +15,11 @@ import {
   Message,
   Grid,
 } from "semantic-ui-react";
+import Axios from "axios";
 
 function FormAluno() {
   const history = useHistory();
-
+  
   const [cadastro, setCadastro] = useState(true);
   const [nome, setNome] = useState(sessionStorage.getItem("aluno"));
   const [cpf, setCpf] = useState(sessionStorage.getItem("cpf"));
@@ -31,6 +32,8 @@ function FormAluno() {
   const [msg, setMsg] = useState(false);
   const [msgText, setMsgText] = useState("");
 
+  const {curso_id} = useParams();
+
   useEffect(() => {
     if (sessionStorage.getItem("codigo") !== "") {
       setCadastro(false);
@@ -38,35 +41,26 @@ function FormAluno() {
     return () => {};
   }, []);
 
-  function idGen() {
-    setCarregando(true);
-    var id = 1;
-    // firebase
-    //   .database()
-    //   .ref(`cursos/${sessionStorage.getItem("idCurso")}/alunos`)
-    //   .once("value", (doc) => {
-    //     doc.forEach((snapshot) => {
-    //       id = snapshot.val().codigo;
-    //     });
-    //     if (id === undefined) {
-    //       id = 1;
-    //       btnCadastro(id);
-    //     } else {
-    //       btnCadastro(id + 1);
-    //     }
-    //   });
-  }
   function btnCadastro(id) {
+    setCarregando(true);
+
     var aluno = {
-      codigo: id,
       nome,
+      cep: mCEP(cep),
       cpf: mCPF(cpf),
       email,
-      cep: mCEP(cep),
       telefone: mTel(telefone),
       endereco,
+      curso_id
     };
-
+    
+    Axios.post('http://localhost:3333/alunos',aluno).then(sucesso=>{
+      // console.log(sucesso);
+      setCarregando(false);
+      history.push('/Cursos/'+curso_id)
+    }).catch(error=>{
+      console.log(error);
+    })
     // firebase
     //   .database()
     //   .ref(
@@ -114,7 +108,7 @@ function FormAluno() {
       setMsgText("Preencha os campos e tente novamente.");
     } else {
       if (cadastro) {
-        idGen();
+        btnCadastro();
       } else {
         if (
           nome === sessionStorage.getItem("aluno") &&

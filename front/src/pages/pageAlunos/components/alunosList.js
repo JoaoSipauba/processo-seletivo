@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-// import firebase from "../../../services/firebase";
-import { useHistory } from "react-router-dom";
-import { storageClear } from "../../../functions/storageClear";
+
+import Axios from "axios";
+import { useHistory, useParams } from "react-router-dom";
 
 import AlunosFooter from "./alunosFooter";
 import {
@@ -16,37 +16,39 @@ function CursosList() {
   const history = useHistory();
 
   const [alunosList, setAlunosList] = useState([]);
+  const [curso, setCurso] = useState();
   const [carregando, setCarregando] = useState(false);
 
+  const { id } = useParams();
   useEffect(() => {
     setCarregando(true);
+    // console.log(id);
 
-    storageClear("alunos");
+    // Axios.get('http://localhost:3333/curso'+id)
+    // .then(response=>{
+    //   console.log(response.data);
+    //   setAlunosList(response.data)
+    //   setCurso(response.data[0].curso)
+    //   setCarregando(false);
+    // }).catch(error=>{
+    //   console.log(error);
+    //   setCarregando(false);
+    // })
     
-    var alunos = {};
-    // firebase
-    //   .database()
-    //   .ref(`cursos/${sessionStorage.getItem("idCurso")}/alunos`)
-    //   .on("value", (snapshot) => {
-    //     alunos = snapshot.val();
-    //     if (alunos === null || alunos === undefined) {
-    //       setAlunosList(false);
-    //     } else {
-    //       setAlunosList(Object.values(alunos));
-    //     }
-    //     setCarregando(false);
-    //   });
+    Axios.get('http://localhost:3333/alunos?curso_id='+id)
+      .then(response=>{
+        console.log(response.data);
+        setAlunosList(response.data)
+        setCurso(response.data[0].curso)
+        setCarregando(false);
+      }).catch(error=>{
+        console.log(error);
+        setCarregando(false);
+      })
     return () => {};
   }, []);
 
   function rowClick(aluno) {
-    sessionStorage.setItem("aluno", aluno.nome);
-    sessionStorage.setItem("codigo", aluno.codigo);
-    sessionStorage.setItem("cpf", aluno.cpf);
-    sessionStorage.setItem("endereco", aluno.endereco);
-    sessionStorage.setItem("cep", aluno.cep);
-    sessionStorage.setItem("email", aluno.email);
-    sessionStorage.setItem("telefone", aluno.telefone);
     history.push("/CadastrarAluno");
   }
 
@@ -61,7 +63,7 @@ function CursosList() {
                   <Grid columns={2} stackable>
                     <Grid.Row verticalAlign="middle">
                       <Grid.Column>
-                        <h2>Alunos de {sessionStorage.getItem("curso")}:</h2>
+                        <h2>Alunos de {curso}:</h2>
                       </Grid.Column>
                       <Grid.Column style={{height: "100%"}} textAlign="right">
                         <DropdownMenu />
@@ -90,7 +92,7 @@ function CursosList() {
                         <Table.Body style={{ cursor: "pointer" }}>
                           {alunosList.map((aluno, index) => (
                             <Table.Row key={index} onClick={()=> rowClick(aluno)}>
-                              <Table.Cell>{aluno.codigo}</Table.Cell>
+                              <Table.Cell>{aluno.id}</Table.Cell>
                               <Table.Cell>
                                 <strong>{aluno.nome}</strong>
                               </Table.Cell>
@@ -108,7 +110,7 @@ function CursosList() {
             ) : (
               <>
                 <Dimmer active>
-                  <Loader size="big">Listando cursos</Loader>
+                  <Loader size="big">Listando alunos</Loader>
                 </Dimmer>
               </>
             )}

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Axios from "axios";
-// import firebase from "../../../../services/firebase";
 import { useHistory } from "react-router-dom";
-// import { storageClear } from "../../../../functions/storageClear";
 import { excelDownload } from "../../../../functions/excelDownload";
 
 import CursosFooter from "../cursosFooter/cursosFooter";
@@ -27,7 +25,7 @@ function CursosList() {
   useEffect(() => {
     setCarregando(true);
 
-    Axios.get('http://localhost:3333/cursos')
+    Axios.get('http://localhost:3333/cursos/')
       .then(response=>{
         console.log(response);
         setCursos(response.data)
@@ -40,7 +38,8 @@ function CursosList() {
   }, []);
 
   function rowClick(curso) {
-    history.push("/Alunos");
+    history.push(`/Cursos/${curso.id}`);
+    // console.log(curso.id);
   }
 
   return (

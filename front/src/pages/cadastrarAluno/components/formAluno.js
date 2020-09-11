@@ -34,11 +34,11 @@ function FormAluno() {
   const [msgText, setMsgText] = useState("");
 
   const {id} = useParams();
-  var currentRoute = useLocation().pathname;
+  const location = useLocation().pathname;
 
   useEffect(() => {
     setCarregando(true)
-    currentRoute = currentRoute.split('/')
+    let currentRoute = location.split('/')
     if (currentRoute[1] === 'AlterarAluno') {
       setCadastro(false);
       Axios.get('http://localhost:3333/alunos?aluno_id='+id).then(response=>{
@@ -55,7 +55,7 @@ function FormAluno() {
     }
     setCarregando(false)
     return () => {};
-  }, []);
+  }, [id, location]);
 
   function btnCadastro() {
     setCarregando(true);

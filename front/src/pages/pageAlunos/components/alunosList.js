@@ -26,7 +26,6 @@ function CursosList() {
       .then(response=>{
         setAlunosList(response.data)
         if (response.data.length === 0) {
-          console.log(response.data);
           Axios.get('http://localhost:3333/cursos?curso_id='+id).then(res=>{
             setCurso(res.data[0].curso)
           })
@@ -40,7 +39,7 @@ function CursosList() {
         setCarregando(false);
       })
     return () => {};
-  }, []);
+  }, [id]);
 
   function rowClick(aluno_id) {
     history.push("/AlterarAluno/"+aluno_id);

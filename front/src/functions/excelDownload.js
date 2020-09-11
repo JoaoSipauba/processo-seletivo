@@ -4,7 +4,7 @@ export function excelDownload(tipo, obj) {
   let { json2excel } = require("js2excel");
 
   if (tipo === "alunos") {
-    var data = [];
+    // var data = [];
     // firebase
     //   .database()
     //   .ref(`/cursos/${sessionStorage.getItem("idCurso")}`)

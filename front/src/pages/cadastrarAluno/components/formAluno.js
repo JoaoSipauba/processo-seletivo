@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import firebase from "../../../services/firebase";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 
 import { mCEP, mTel, mCPF } from "../../../functions/masks";
@@ -28,6 +27,7 @@ function FormAluno() {
   const [telefone, setTelefone] = useState();
   const [endereco, setEndereco] = useState();
   const [objAluno, setObjAluno] = useState();
+  const [cursoId, setCursoId] = useState();
 
   const [carregando, setCarregando] = useState(false);
   const [msg, setMsg] = useState(false);
@@ -37,6 +37,7 @@ function FormAluno() {
   var currentRoute = useLocation().pathname;
 
   useEffect(() => {
+    setCarregando(true)
     currentRoute = currentRoute.split('/')
     if (currentRoute[1] === 'AlterarAluno') {
       setCadastro(false);
@@ -48,10 +49,11 @@ function FormAluno() {
         setCep(data.cep)
         setTelefone(data.telefone)
         setEndereco(data.endereco)
+        setCursoId(data.curso_id)
         setObjAluno(data)
-        console.log(data);
       })
     }
+    setCarregando(false)
     return () => {};
   }, []);
 
@@ -92,6 +94,7 @@ function FormAluno() {
     Axios.put("http://localhost:3333/alunos/"+id,aluno).then(response=>{
       setCarregando(false)
       history.push('/Cursos/'+aluno.curso_id)
+      console.log(response);
     }).catch(error=>{
       setCarregando(false)
       console.log(error);
@@ -148,7 +151,7 @@ function FormAluno() {
                           style={{ height: "100%" }}
                           textAlign="right"
                         >
-                          <DropdownForm />
+                          <DropdownForm cursoId={cursoId} />
                         </Grid.Column>
                       </Grid.Row>
                     </Grid>

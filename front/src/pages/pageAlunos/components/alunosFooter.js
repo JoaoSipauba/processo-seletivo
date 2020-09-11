@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import firebase from "../../../services/firebase";
 
 import { Table, Button, Modal, Icon, Message, Form } from "semantic-ui-react";
 import { Link } from "react-router-dom";

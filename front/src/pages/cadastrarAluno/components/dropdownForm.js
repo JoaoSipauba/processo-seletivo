@@ -1,24 +1,20 @@
 import React from "react";
-// import firebase from "../../../services/firebase";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { Dropdown } from "semantic-ui-react";
+import Axios from "axios";
 
-function DropdownForm() {
+function DropdownForm(props) {
   const history = useHistory();
-
+  const {id} = useParams();
+  
   function excluir() {
-    // firebase
-    //   .database()
-    //   .ref(
-    //     `/cursos/${sessionStorage.getItem(
-    //       "idCurso"
-    //     )}/alunos/${sessionStorage.getItem("codigo")}`
-    //   )
-    //   .remove()
-    //   .then(() => {
-    //     history.push("/Alunos");
-    //   });
+    Axios.delete('http://localhost:3333/alunos/'+id).then(response=>{
+        // console.log(response);
+        history.push("/Cursos/"+props.cursoId);
+      }).catch(error=>{
+        console.log(error);
+      })
   }
   return (
     <Dropdown style={{ height: "100%" }} icon="align justify" className="icon">

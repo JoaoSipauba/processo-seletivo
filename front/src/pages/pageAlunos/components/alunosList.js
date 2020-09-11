@@ -22,19 +22,6 @@ function CursosList() {
   const { id } = useParams();
   useEffect(() => {
     setCarregando(true);
-    // console.log(id);
-
-    // Axios.get('http://localhost:3333/curso'+id)
-    // .then(response=>{
-    //   console.log(response.data);
-    //   setAlunosList(response.data)
-    //   setCurso(response.data[0].curso)
-    //   setCarregando(false);
-    // }).catch(error=>{
-    //   console.log(error);
-    //   setCarregando(false);
-    // })
-    
     Axios.get('http://localhost:3333/alunos?curso_id='+id)
       .then(response=>{
         // console.log(response.data);

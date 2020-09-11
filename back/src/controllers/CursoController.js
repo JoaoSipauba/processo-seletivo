@@ -19,10 +19,10 @@ module.exports = {
     async index(req, res){
         let { curso_id } = req.query;
 
-        let query = await knex('cursos')
+        let query = await knex('cursos').orderBy('curso')
         
         if (curso_id) {
-            query = await knex('cursos')
+            query = await knex('cursos').orderBy('curso')
             .where({id:curso_id})
         }
         return res.json(query);

@@ -8,12 +8,14 @@ module.exports = {
             var query = await knex('alunos')
             .join('cursos', 'cursos.id', '=', 'alunos.curso_id')
             .select('alunos.*', 'cursos.curso', 'cursos.carga_horaria')
+            .orderBy('nome')
 
             if (curso_id) {
                 query = await knex('alunos')
                 .where({curso_id})
                 .join('cursos', 'cursos.id', '=', 'alunos.curso_id')
                 .select('alunos.*', 'cursos.curso', 'cursos.carga_horaria')
+                .orderBy('nome')
             }
             if (aluno_id) {
                 query = await knex('alunos')

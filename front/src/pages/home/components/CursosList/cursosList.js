@@ -27,7 +27,6 @@ function CursosList() {
 
     Axios.get('http://localhost:3333/cursos/')
       .then(response=>{
-        console.log(response);
         setCursos(response.data)
         setCarregando(false);
       }).catch(error=>{
@@ -39,7 +38,6 @@ function CursosList() {
 
   function rowClick(curso) {
     history.push(`/Cursos/${curso.id}`);
-    // console.log(curso.id);
   }
 
   return (

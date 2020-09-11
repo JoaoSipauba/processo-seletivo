@@ -17,8 +17,15 @@ function date(params) {
 
 module.exports = {
     async index(req, res){
-        const results = await knex('cursos')
-        return res.json(results);
+        let { curso_id } = req.query;
+
+        let query = await knex('cursos')
+        
+        if (curso_id) {
+            query = await knex('cursos')
+            .where({id:curso_id})
+        }
+        return res.json(query);
     },
     async create(req, res, next){
         try {

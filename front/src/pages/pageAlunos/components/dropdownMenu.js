@@ -10,8 +10,6 @@ import ModalEditCurso from "./modalEditCurso";
 function DropdownMenu() {
   const history = useHistory();
 
-  var curso = sessionStorage.getItem("idCurso");
-
   function excluir() {
     // firebase
     //   .database()

@@ -33,8 +33,7 @@ export async function excelDownload(tipo, id) {
     if (tipo === "cursos") {
       var obj = []
       await Axios.get('http://localhost:3333/cursos').then(response=>{
-      response.obj.map(curso=>{
-        console.log(curso);
+      response.data.map(curso=>{
         let newCurso = {
           id: curso.id ,
           curso: curso.curso ,

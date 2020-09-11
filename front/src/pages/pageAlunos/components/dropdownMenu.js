@@ -1,12 +1,11 @@
 import React from "react";
 
-// import firebase from "../../../services/firebase";
+import Axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { excelDownload } from "../../../functions/excelDownload";
 
 import { Dropdown, Modal } from "semantic-ui-react";
 import ModalEditCurso from "./modalEditCurso";
-import Axios from "axios";
 
 function DropdownMenu() {
   const history = useHistory();
@@ -19,13 +18,6 @@ function DropdownMenu() {
     }).catch(error=>{
       console.log(error)
     })
-    // firebase
-    //   .database()
-    //   .ref(`/cursos/${curso}`)
-    //   .remove()
-    //   .then(() => {
-    //     history.push("/");
-    //   });
   }
   return (
     <>

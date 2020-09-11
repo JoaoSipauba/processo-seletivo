@@ -24,9 +24,16 @@ function CursosList() {
     setCarregando(true);
     Axios.get('http://localhost:3333/alunos?curso_id='+id)
       .then(response=>{
-        // console.log(response.data);
         setAlunosList(response.data)
-        setCurso(response.data[0].curso)
+        if (response.data.length === 0) {
+          console.log(response.data);
+          Axios.get('http://localhost:3333/cursos?curso_id='+id).then(res=>{
+            setCurso(res.data[0].curso)
+          })
+        }
+        else{
+          setCurso(response.data[0].curso)
+        }
         setCarregando(false);
       }).catch(error=>{
         console.log(error);

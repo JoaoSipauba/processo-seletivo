@@ -39,7 +39,7 @@ function DropdownMenu() {
           <Dropdown.Item
             icon="file alternate"
             text="Exportar para excel"
-            onClick={() => excelDownload("alunos")}
+            onClick={() => excelDownload("alunos", id)}
           />
         </Dropdown.Menu>
       </Dropdown>

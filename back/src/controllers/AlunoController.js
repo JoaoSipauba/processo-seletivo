@@ -3,7 +3,7 @@ const knex = require('../database');
 module.exports = {
     async index(req, res, next) {
         try {
-            let { curso_id } = req.query;
+            let { curso_id, aluno_id } = req.query;
 
             var query = await knex('alunos')
             .join('cursos', 'cursos.id', '=', 'alunos.curso_id')
@@ -14,6 +14,10 @@ module.exports = {
                 .where({curso_id})
                 .join('cursos', 'cursos.id', '=', 'alunos.curso_id')
                 .select('alunos.*', 'cursos.curso', 'cursos.carga_horaria')
+            }
+            if (aluno_id) {
+                query = await knex('alunos')
+                .where({id:aluno_id})
             }
             const results = query;
 

@@ -22,7 +22,9 @@ Você foi indicado para desenvolver o sistema com os mesmos requisitos solicitad
 ## Neste projeto são utilizadas as seguintes dependencias:
 
 * reactJS
-* Google Firebase
+* Axios
+* Express
+* Postgres
 * react-scripts
 * react-dom
 * react-router-dom

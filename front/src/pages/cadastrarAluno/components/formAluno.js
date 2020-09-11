@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import firebase from "../../../services/firebase";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 
 import { mCEP, mTel, mCPF } from "../../../functions/masks";
 
@@ -21,27 +21,41 @@ function FormAluno() {
   const history = useHistory();
   
   const [cadastro, setCadastro] = useState(true);
-  const [nome, setNome] = useState(sessionStorage.getItem("aluno"));
-  const [cpf, setCpf] = useState(sessionStorage.getItem("cpf"));
-  const [email, setEmail] = useState(sessionStorage.getItem("email"));
-  const [cep, setCep] = useState(sessionStorage.getItem("cep"));
-  const [telefone, setTelefone] = useState(sessionStorage.getItem("telefone"));
-  const [endereco, setEndereco] = useState(sessionStorage.getItem("endereco"));
+  const [nome, setNome] = useState();
+  const [cpf, setCpf] = useState();
+  const [email, setEmail] = useState();
+  const [cep, setCep] = useState();
+  const [telefone, setTelefone] = useState();
+  const [endereco, setEndereco] = useState();
+  const [objAluno, setObjAluno] = useState();
 
   const [carregando, setCarregando] = useState(false);
   const [msg, setMsg] = useState(false);
   const [msgText, setMsgText] = useState("");
 
-  const {curso_id} = useParams();
+  const {id} = useParams();
+  var currentRoute = useLocation().pathname;
 
   useEffect(() => {
-    if (sessionStorage.getItem("codigo") !== "") {
+    currentRoute = currentRoute.split('/')
+    if (currentRoute[1] === 'AlterarAluno') {
       setCadastro(false);
+      Axios.get('http://localhost:3333/alunos?aluno_id='+id).then(response=>{
+        var data = response.data[0]
+        setNome(data.nome)
+        setCpf(data.cpf)
+        setEmail(data.email)
+        setCep(data.cep)
+        setTelefone(data.telefone)
+        setEndereco(data.endereco)
+        setObjAluno(data)
+        console.log(data);
+      })
     }
     return () => {};
   }, []);
 
-  function btnCadastro(id) {
+  function btnCadastro() {
     setCarregando(true);
 
     var aluno = {
@@ -51,49 +65,37 @@ function FormAluno() {
       email,
       telefone: mTel(telefone),
       endereco,
-      curso_id
+      curso_id: id
     };
     
     Axios.post('http://localhost:3333/alunos',aluno).then(sucesso=>{
-      // console.log(sucesso);
       setCarregando(false);
-      history.push('/Cursos/'+curso_id)
+      history.push('/Cursos/'+id)
     }).catch(error=>{
       console.log(error);
+      setCarregando(false);
+
     })
-    // firebase
-    //   .database()
-    //   .ref(
-    //     `/cursos/${sessionStorage.getItem("idCurso")}/alunos/${aluno.codigo}`
-    //   )
-    //   .set(aluno)
-    //   .then(() => {
-    //     setCarregando(false);
-    //     history.push("/Alunos");
-    //   });
   }
 
   function update() {
     setCarregando(true);
-    // firebase
-    //   .database()
-    //   .ref(
-    //     `/cursos/${sessionStorage.getItem(
-    //       "idCurso"
-    //     )}/alunos/${sessionStorage.getItem("codigo")}`
-    //   )
-    //   .update({
-    //     nome,
-    //     cpf: mCPF(cpf),
-    //     email,
-    //     cep: mCEP(cep),
-    //     telefone: mTel(telefone),
-    //     endereco,
-    //   })
-    //   .then(() => {
-    //     setCarregando(false);
-    //     history.push("/Alunos");
-    //   });
+    var aluno = {
+      nome,
+      curso_id: objAluno.curso_id,
+      cpf: mCPF(cpf),
+      email,
+      cep: mCEP(cep),
+      telefone: mTel(telefone),
+      endereco,
+    }
+    Axios.put("http://localhost:3333/alunos/"+id,aluno).then(response=>{
+      setCarregando(false)
+      history.push('/Cursos/'+aluno.curso_id)
+    }).catch(error=>{
+      setCarregando(false)
+      console.log(error);
+    })
   }
   function inputCheck() {
     if (
@@ -111,12 +113,12 @@ function FormAluno() {
         btnCadastro();
       } else {
         if (
-          nome === sessionStorage.getItem("aluno") &&
-          cpf === sessionStorage.getItem("cpf") &&
-          cep === sessionStorage.getItem("cep") &&
-          endereco === sessionStorage.getItem("endereco") &&
-          email === sessionStorage.getItem("email") &&
-          telefone === sessionStorage.getItem("telefone")
+          nome === objAluno.nome &&
+          cpf === objAluno.cpf &&
+          cep === objAluno.cep &&
+          endereco === objAluno.endereco &&
+          email === objAluno.email &&
+          telefone === objAluno.telefone
         ) {
           setMsg(true);
           setMsgText("Não houveram alterações neste aluno.");

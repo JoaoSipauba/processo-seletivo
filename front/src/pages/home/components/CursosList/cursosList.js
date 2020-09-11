@@ -84,7 +84,7 @@ function CursosList() {
                       <Table.HeaderCell>Carga horária(horas)</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
-                  {cursos === false ? (
+                  {cursos.length < 1 ? (
                     <h3 style={{ padding: "3%" }}>
                       Não há cursos cadastrados no sistema
                     </h3>

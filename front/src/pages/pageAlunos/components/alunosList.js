@@ -48,8 +48,8 @@ function CursosList() {
     return () => {};
   }, []);
 
-  function rowClick(aluno) {
-    history.push("/CadastrarAluno/");
+  function rowClick(aluno_id) {
+    history.push("/AlterarAluno/"+aluno_id);
   }
 
   return (
@@ -81,7 +81,7 @@ function CursosList() {
                         <Table.HeaderCell>Telefone</Table.HeaderCell>
                       </Table.Row>
                     </Table.Header>
-                    {alunosList === false ? (
+                    {alunosList.length < 1 ? (
                       <Table.Body>
                         <h3 style={{ padding: "3%" }}>
                           Não há alunos cadastrados nesta disciplina
@@ -91,7 +91,7 @@ function CursosList() {
                       <>
                         <Table.Body style={{ cursor: "pointer" }}>
                           {alunosList.map((aluno, index) => (
-                            <Table.Row key={index} onClick={()=> rowClick(aluno)}>
+                            <Table.Row key={index} onClick={()=> rowClick(aluno.id)}>
                               <Table.Cell>{aluno.id}</Table.Cell>
                               <Table.Cell>
                                 <strong>{aluno.nome}</strong>

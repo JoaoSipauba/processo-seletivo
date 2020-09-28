@@ -36,7 +36,7 @@ module.exports = {
                 carga_horaria,
                 data_cadastro
             })
-            return res.status(201).send(`Curso ${curso} inserido com sucesso!`);
+            return res.status(201).send(`Curso inserido com sucesso!`);
         } catch (error) {
             next(error);
         }
@@ -49,9 +49,18 @@ module.exports = {
                 curso,
                 carga_horaria
             }).where({id})
-            return res.status(201).send(`Curso ${curso} atualizado com sucesso!`);
+            return res.status(200).send({status: 200, msg:`Curso atualizado com sucesso!`});
         } catch (error) {
-            next(error)
+            // console.log(error.constraint);
+            switch (error.constraint) {
+                case 'cursos_curso_unique':
+                    var msg = 'Curso já cadastrado!'
+                    break;
+                default:
+                    var msg = 'Erro ao cadastrar curso!'
+                    break;
+            }
+            res.status(400).send({status: 400, msg})  
         }
     },
     async delete(req, res, next){

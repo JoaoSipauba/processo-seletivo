@@ -29,8 +29,8 @@ module.exports = {
         }
     },
     async create(req, res, next) {
+        let { nome, curso_id, cep, cpf, email, endereco, telefone } = req.body
         try {
-            let { nome, curso_id, cep, cpf, email, endereco, telefone } = req.body
             await knex('alunos').insert({
                 nome,
                 curso_id,
@@ -40,10 +40,20 @@ module.exports = {
                 endereco,
                 telefone
             })
-
-            return res.status(201).send(`Aluno inserido com sucesso!`);
+            res.status(201).send({status: 201, msg: `Aluno cadastrado com sucesso!`});
         } catch (error) {
-            next(error);
+            switch (error.constraint) {
+                case 'alunos_cpf_unique':
+                    var msg = 'Cpf já cadastrado!'
+                    break;
+                case 'alunos_email_unique':
+                    var msg = 'Email já cadastrado!'
+                    break;
+                default:
+                    var msg = 'Erro ao cadastrar aluno!'
+                    break;
+            }
+            res.status(400).send({status: 400, msg})
         }
     },
     async update(req, res, next) {

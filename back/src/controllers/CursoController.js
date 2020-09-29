@@ -51,7 +51,6 @@ module.exports = {
             }).where({id})
             return res.status(200).send({status: 200, msg:`Curso atualizado com sucesso!`});
         } catch (error) {
-            // console.log(error.constraint);
             switch (error.constraint) {
                 case 'cursos_curso_unique':
                     var msg = 'Curso já cadastrado!'
@@ -60,7 +59,7 @@ module.exports = {
                     var msg = 'Erro ao cadastrar curso!'
                     break;
             }
-            res.status(400).send({status: 400, msg})  
+            return res.status(400).send({status: 400, msg})  
         }
     },
     async delete(req, res, next){

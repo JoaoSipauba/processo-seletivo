@@ -14,6 +14,7 @@ function ModalEditCurso() {
   const [objCurso, setObjCurso] = useState();
   const [msg, setMsg] = useState(false);
   const [msgText, setMsgText] = useState("");
+  const [msgColor, setMsgColor] = useState('')
 
   useEffect(()=>{
     Axios.get('http://localhost:3333/cursos?curso_id='+id).then(response=>{
@@ -33,18 +34,18 @@ function ModalEditCurso() {
       carga_horaria: cargaHorariaInput
     }
     Axios.put('http://localhost:3333/cursos/'+id,curso).then(response=>{
-      history.push('/')
+      setMsg(true)
+      setMsgColor('green')
+      console.log(response.data);
+      setMsgText(response.data.msg)
+      setTimeout(function(){ 
+        history.push('/')
+      }, 2000);
     }).catch(error=>{
-      console.log(error);
+      setMsg(true)
+      setMsgColor('red')
+      setMsgText(error.response.data.msg)
     })
-    // firebase
-    //   .database()
-    //   .ref(`/cursos/${sessionStorage.getItem("idCurso")}`)
-    //   .update({
-    //     curso: cursoInput,
-    //     cargaHoraria: cargaHorariaInput,
-    //   })
-    //   .then(() => {});
     
   }
   function inputCheck() {
@@ -58,6 +59,7 @@ function ModalEditCurso() {
       ) {
         setMsg(true);
         setMsgText("Não houveram alterações neste curso.");
+        setMsgColor('yellow')
       } else {
         editCurso();
         // history.push("/");
@@ -88,12 +90,12 @@ function ModalEditCurso() {
         {msg ? (
           <Message
             size="small"
-            warning
+            color={msgColor}
             onDismiss={() => {
               setMsg(false);
             }}
             header={msgText}
-            content="Verifique e tente novamente."
+            content="Verifique os dados e tente novamente."
           />
         ) : (
           ""
